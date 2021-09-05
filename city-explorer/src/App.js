@@ -1,74 +1,54 @@
+import React, { Component } from 'react'
 import axios from 'axios';
-import React from 'react';
-
-class App extends React.Component {
+export class App extends Component {
 
   constructor(props) {
     super(props);
-
     this.state = {
-      lat: '',
-      lon: '',
-      zoom: '',
-      displayName: '',
-      mapFlag: false,
-      err: false
+      locationName: '',
+      locationData: {}
     }
   }
 
-  getData = async e => {
+  handelLocationNameChange = (e) => { this.setState({ locationName: e.target.value }) }
+
+  handelSubmit = async (e) => {
+
     e.preventDefault();
-
-    let cityName = e.target.cityName.value;
-
-    let Key = 'pk.024f6e8bc1742f77c30108e11db494a8';
-    let URL = `https://eu1.locationiq.com/v1/search.php?key=${Key}&q=${cityName}&format=json`;
-    //  console.log('Show', show);
+    console.log(this.state.locationName);
 
 
-    // 2 : axios
-    try {
-      let result = await axios.get(URL);
-      console.log(result);
+    
 
-      this.setState({
-        displayName: result.data[0].display_name,
-        lat: result.data[0].lat,
-        lon: result.data[0].lon,
-        zoom: result.data[0].boundingbox,
-        mapFlag: true
+    const url = `https://eu1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATION_IQ_KEY}&q=${this.state.locationName}&format=json`;
 
-      });
-    }
-    catch {
-      this.setState({
-        err: true
-      })
-    }
+    console.log(url);
 
+    const response = await axios.get(url);
+
+    console.log(response.data[0]);
+    this.setState({
+      locationData: response.data[0]
+    });
   }
-
 
   render() {
     return (
-      <>
-        <form onSubmit={this.getData}>
-          <input type="text" name="cityName" />
-          <input type="submit" value="Show" />
+      <div>
+        <form onSubmit={this.handelSubmit}>
+          <input type="text" onChange={this.handelLocationNameChange} placeholder="enter city name" />
+          <input type="submit" value="Explorer!" />
         </form>
 
-        <h3>{this.state.displayName}</h3>
-        <h3>{this.state.lat}</h3>
-        <h3>{this.state.lon}</h3>
-        <h3>{this.state.boundingbox}</h3>
-
-        {this.state.mapFlag &&
-          <img src={`https://maps.locationiq.com/v3/staticmap?key=pk.024f6e8bc1742f77c30108e11db494a8&center=${this.state.lat},${this.state.lon} &zoom=${this.state.boundingbox} `} alt='map' />
-        }
-        {this.state.err && <p>Sorry, Not Found</p>}
-      </>
-    );
+        <div>
+          <h2>Location Info</h2>
+          <p>{this.state.locationData.display_name}</p>
+          <p>lat: {this.state.locationData.lat}</p>
+          <p>lon: {this.state.locationData.lon}</p>
+        </div>
+      </div>
+    )
   }
 }
 
-export default App;
+export default App
