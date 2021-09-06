@@ -1,5 +1,9 @@
 import React, { Component } from 'react'
 import axios from 'axios';
+import ApiForm from './components/Form'
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+
 export class App extends Component {
 
   constructor(props) {
@@ -24,6 +28,7 @@ export class App extends Component {
     const url = `https://eu1.locationiq.com/v1/search.php?key=${key}&q=${this.state.locationName}&format=json`;
 
     console.log(url);
+    
 
     const response = await axios.get(url);
 
@@ -36,16 +41,23 @@ export class App extends Component {
   render() {
     return (
       <div>
-        <form onSubmit={this.handelSubmit}>
+        {/* <form onSubmit={this.handelSubmit}>
           <input type="text" onChange={this.handelLocationNameChange} placeholder="enter city name" />
           <input type="submit" value="Explorer!" />
-        </form>
+        </form> */}
+        <ApiForm 
+        
+        handelLocationNameChange={this.handelLocationNameChange}
+        handelSubmit={this.handelSubmit}
+        />
 
         <div>
           <h2>Location Info</h2>
           <p>{this.state.locationData.display_name}</p>
-          <p>lat: {this.state.locationData.lat}</p>
-          <p>lon: {this.state.locationData.lon}</p>
+          <p>{this.state.locationData.lat}</p>
+          <p> {this.state.locationData.lon}</p>
+          <img src={`https://maps.locationiq.com/v3/staticmap?key=pk.dc4d169195ffad21634effde9bfc7701&center=${this.state.locationData.lat},${this.state.locationData.lon}&zoom=[1-18]&size=2000x400`} alt='' />
+
         </div>
       </div>
     )
