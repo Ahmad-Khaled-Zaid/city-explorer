@@ -44,8 +44,10 @@ export class App extends Component {
         <div>
           <h2>Location Info</h2>
           <p>{this.state.locationData.display_name}</p>
-          <p>lat: {this.state.locationData.lat}</p>
-          <p>lon: {this.state.locationData.lon}</p>
+          <p>{this.state.locationData.lat}</p>
+          <p> {this.state.locationData.lon}</p>
+          <img src={`https://maps.locationiq.com/v3/staticmap?key=pk.dc4d169195ffad21634effde9bfc7701&center=${this.state.locationData.lat},${this.state.locationData.lon}&zoom=[30]&size=2000x400`} alt='map' />
+
         </div>
       </div>
     )
