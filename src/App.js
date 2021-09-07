@@ -56,7 +56,7 @@ export class App extends Component {
           <p>{this.state.locationData.display_name}</p>
           <p>{this.state.locationData.lat}</p>
           <p> {this.state.locationData.lon}</p>
-          <img src={`https://maps.locationiq.com/v3/staticmap?key=pk.dc4d169195ffad21634effde9bfc7701&center=${this.state.locationData.lat},${this.state.locationData.lon}&zoom=[1-18]&size=2000x400`} alt='' />
+          <img src={`https://maps.locationiq.com/v3/staticmap?key=pk.8a0e20370bc04d2acc84c59699dfa30c&center=${this.state.locationData.lat},${this.state.locationData.lon}&zoom=[1-18]&size=2000x400`} alt='' />
 
         </div>
       </div>
